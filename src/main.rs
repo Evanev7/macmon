@@ -17,6 +17,10 @@ enum Commands {
     /// Number of samples to run for. Set to 0 to run indefinitely
     #[arg(short, long, default_value_t = 0)]
     samples: u32,
+
+    /// Include SoC information in the output
+    #[arg(long, default_value_t = false)]
+    soc_info: bool,
   },
 
   /// Print debug information
@@ -40,18 +44,23 @@ fn main() -> Result<(), Box<dyn Error>> {
   let args = Cli::parse();
 
   match &args.command {
-    Some(Commands::Pipe { samples }) => {
+    Some(Commands::Pipe { samples, soc_info }) => {
       let mut sampler = Sampler::new()?;
       let mut counter = 0u32;
 
-      // Clone soc_info to avoid borrow conflicts
-      let soc_info = sampler.get_soc_info().clone();
+      let soc_info_val = if *soc_info {
+        Some(sampler.get_soc_info().clone())
+      } else {
+        None
+      };
 
       loop {
         let doc = sampler.get_metrics(args.interval.max(100))?;
 
         let mut doc = serde_json::to_value(&doc)?;
-        doc["soc"] = serde_json::to_value(&soc_info)?;
+        if let Some(ref soc) = soc_info_val {
+          doc["soc"] = serde_json::to_value(soc)?;
+        }
         doc["timestamp"] = serde_json::to_value(chrono::Utc::now().to_rfc3339())?;
         let doc = serde_json::to_string(&doc)?;
 
