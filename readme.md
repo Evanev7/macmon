@@ -2,7 +2,7 @@
 
 <div align="center">
 
-Sudoless performance monitoring CLI tool for Apple Silicon processors.
+A sudoless performance monitoring CLI tool for Apple Silicon processors.
 
 [<img src="https://badges.ws/github/assets-dl/vladkens/macmon" />](https://github.com/vladkens/macmon/releases)
 [<img src="https://badges.ws/github/release/vladkens/macmon" />](https://github.com/vladkens/macmon/releases)
@@ -17,56 +17,38 @@ Sudoless performance monitoring CLI tool for Apple Silicon processors.
 
 ## Motivation
 
-Apple Silicon processors don't provide an easy way to see live power consumption. I was interested in this information while testing local LLM models. `asitop` is a nice and simple TUI to quickly see current metrics, but it reads data from `powermetrics` and requires root privileges. `macmon` uses a private macOS API to gather metrics (essentially the same as `powermetrics`) but runs without sudo. 🎉
+Apple Silicon processors don't provide an easy way to view live power consumption. I was interested in this data while testing local LLM models. `asitop` is a nice and simple TUI for quickly checking current metrics, but it reads data from `powermetrics` and requires root privileges. `macmon` uses a private macOS API to gather similar metrics (essentially the same as `powermetrics`), but runs without sudo. 🎉
 
 ## 🌟 Features
 
-- 🚫 Works without sudo
+- 🚫 Runs without sudo
 - ⚡ Real-time CPU / GPU / ANE power usage
 - 📊 CPU utilization per cluster
 - 💾 RAM / Swap usage
-- 📈 Historical charts + avg / max values
+- 📈 Historical charts with average and max values
 - 🌡️ Average CPU / GPU temperature
-- 🎨 Switchable colors (6 variants)
-- 🪟 Can be rendered in a small window
+- 🎨 Switchable color themes (6 variants)
+- 🪟 Can be displayed in a small window
 - 🦀 Written in Rust
 
-## 🍺 Install via Homebrew
+## 📥 Installation
 
-You can install [`macmon`](https://formulae.brew.sh/formula/macmon) using [brew](https://brew.sh/):
+- Install [`macmon`](https://formulae.brew.sh/formula/macmon) using [brew](https://brew.sh/):
 
 ```sh
-$ brew install macmon
+brew install macmon
 ```
 
-## 🖥️ Install via MacPorts
-
-You can also install [`macmon`](https://ports.macports.org/port/macmon/) using [MacPorts](https://macports.org/):
+- Install [`macmon`](https://ports.macports.org/port/macmon/) using [MacPorts](https://macports.org/):
 
 ```sh
-$ sudo port install macmon
+sudo port install macmon
 ```
 
-## 📦 Install from source
-
-1. Install [Rust toolchain](https://www.rust-lang.org/tools/install)
-
-2. Clone the repo:
+- Install [`macmon`](https://crates.io/crates/macmon) using [Cargo](https://crates.io/):
 
 ```sh
-git clone https://github.com/vladkens/macmon.git && cd macmon
-```
-
-3. Build and run:
-
-```sh
-cargo run -r
-```
-
-4. (Optionally) Binary can be moved to bin folder:
-
-```sh
-sudo cp target/release/macmon /usr/local/bin
+cargo install macmon
 ```
 
 ## 🚀 Usage
@@ -92,15 +74,15 @@ Controls:
 
 ## 🚰 Piping
 
-You can use the pipe subcommand to output metrics in JSON format, which is suitable for piping into other tools or scripts. For example:
+You can use the `pipe` subcommand to output metrics in JSON format, which makes it suitable for piping into other tools or scripts. For example:
 
 ```sh
 macmon pipe | jq
 ```
 
-This command runs `macmon` in "pipe" mode and navigate output to `jq` for pretty-printing.
+This command runs `macmon` in "pipe" mode and sends the output to `jq` for pretty-printing.
 
-You can also specify the number of samples to run using `-s` or `--samples` parameter (default: `0`, which runs indefinitely), and set update interval in milliseconds using the `-i` or `--interval` parameter (default: `1000` ms). For example:
+You can also specify the number of samples to collect using the `-s` or `--samples` parameter (default: `0`, which runs indefinitely), and set the update interval in milliseconds using the `-i` or `--interval` parameter (default: `1000` ms). For example:
 
 ```sh
 macmon pipe -s 10 -i 500 | jq
@@ -136,19 +118,38 @@ This will collect 10 samples with an update interval of 500 milliseconds.
 }
 ```
 
+## 📦 Build from Source
+
+1. Install [Rust toolchain](https://www.rust-lang.org/tools/install)
+
+2. Clone the repo:
+
+```sh
+git clone https://github.com/vladkens/macmon.git && cd macmon
+```
+
+3. Build and run:
+
+```sh
+cargo run -r
+```
+
 ## 🤝 Contributing
-We love contributions! Whether you have ideas, suggestions, or bug reports, feel free to open an issue or submit a pull request. Your input is essential in helping us improve `macmon` 💪
+
+We love contributions! Whether you have ideas, suggestions, or bug reports, feel free to open an issue or submit a pull request. Your input is essential to helping us improve `macmon`. 💪
 
 ## 📝 License
-`macmon` is distributed under the MIT License. For more details, check out the LICENSE.
+
+`macmon` is distributed under the MIT License. For more details, check out the LICENSE file.
 
 ## 🔍 See also
-- [tlkh/asitop](https://github.com/tlkh/asitop) – Original tool. Python, requires sudo.
-- [dehydratedpotato/socpowerbud](https://github.com/dehydratedpotato/socpowerbud) – ObjectiveC, sudoless, no TUI.
-- [op06072/NeoAsitop](https://github.com/op06072/NeoAsitop) – Swift, sudoless.
-- [graelo/pumas](https://github.com/graelo/pumas) – Rust, requires sudo.
-- [context-labs/mactop](https://github.com/context-labs/mactop) – Go, requires sudo.
+
+- [tlkh/asitop](https://github.com/tlkh/asitop) – The original tool. Written in Python, requires sudo.
+- [dehydratedpotato/socpowerbud](https://github.com/dehydratedpotato/socpowerbud) – Written in Objective-C, sudoless, no TUI.
+- [op06072/NeoAsitop](https://github.com/op06072/NeoAsitop) – Written in Swift, sudoless.
+- [graelo/pumas](https://github.com/graelo/pumas) – Written in Rust, requires sudo.
+- [context-labs/mactop](https://github.com/context-labs/mactop) – Written in Go, requires sudo.
 
 ---
 
-*PS: One More Thing... Remember, monitoring your Mac's performance with `macmon` is like having a personal trainer for your processor — keeping those cores in shape! 💪*
+*P.S. One more thing... Monitoring your Mac's performance with `macmon` is like having a personal trainer for your processor — keeping those cores in shape! 💪*

@@ -48,11 +48,7 @@ fn main() -> Result<(), Box<dyn Error>> {
       let mut sampler = Sampler::new()?;
       let mut counter = 0u32;
 
-      let soc_info_val = if *soc_info {
-        Some(sampler.get_soc_info().clone())
-      } else {
-        None
-      };
+      let soc_info_val = if *soc_info { Some(sampler.get_soc_info().clone()) } else { None };
 
       loop {
         let doc = sampler.get_metrics(args.interval.max(100))?;
