@@ -51,6 +51,12 @@ sudo port install macmon
 cargo install macmon
 ```
 
+- Install [`macmon`](https://search.nixos.org/packages?show=macmon&from=0&size=50&type=packages&query=macmon) using [Nix](https://nixos.org/):
+
+```sh
+nix-env -i macmon
+```
+
 ## 🚀 Usage
 
 ```sh
