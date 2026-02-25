@@ -3,3 +3,4 @@
 /internal
 __handlers__/
 samples/
+.direnv

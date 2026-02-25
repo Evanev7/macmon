@@ -1,12 +1,6 @@
-mod app;
-mod config;
-mod debug;
-mod metrics;
-mod sources;
-
-use app::App;
 use clap::{CommandFactory, Parser, Subcommand, parser::ValueSource};
-use metrics::Sampler;
+use macmon::App;
+use macmon::Sampler;
 use std::error::Error;
 
 #[derive(Debug, Subcommand)]
@@ -68,7 +62,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
       }
     }
-    Some(Commands::Debug) => debug::print_debug()?,
+    Some(Commands::Debug) => macmon::print_debug()?,
     _ => {
       let mut app = App::new()?;
 
